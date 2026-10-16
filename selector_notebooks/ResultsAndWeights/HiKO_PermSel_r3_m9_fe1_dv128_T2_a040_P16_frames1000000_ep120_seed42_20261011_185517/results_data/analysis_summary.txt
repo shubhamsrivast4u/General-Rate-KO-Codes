@@ -1,0 +1,75 @@
+==========================================================================================
+A) SNR (dB) needed for a target BLER, and gain over plain Dumer   [RM(3,9)]
+==========================================================================================
+method                              BLER=1e-02  BLER=1e-03  BLER=1e-04
+Dumer                                   -1.62      -1.09      -0.67
+FE + Dumer                              -1.82      -1.35      -0.98
+FE + heuristic selector                 -2.39      -1.86      -1.47
+FE + NN selector (1 decode)             -2.43      -1.92      -1.52
+FE + NN top-2 (2 decodes)               -2.91      -2.44      -2.06
+gain over plain Dumer (dB):
+FE + Dumer                               0.20       0.26       0.31
+FE + heuristic selector                  0.77       0.77       0.80
+FE + NN selector (1 decode)              0.81       0.83       0.85
+FE + NN top-2 (2 decodes)                1.28       1.35       1.39
+(n/a = target outside the measured range, or fewer than 10 block errors at the neighbouring points)
+
+==========================================================================================
+RM(3,9) at -2.00 dB  (60000 frames)
+==========================================================================================
+B) Nature of the errors.  decoder-failure = the transmitted codeword had a HIGHER likelihood than the decoded one
+   (a maximum-likelihood decoder would have decoded it correctly => headroom for a better decoder)
+method                           BLER [95% CI]                     decoder-failure   median d_H(true,decoded)
+Dumer                            3.36e-02 [3.2e-02,3.5e-02]             100.0%                         64  (2013 errors)
+FE + Dumer                       2.26e-02 [2.1e-02,2.4e-02]             100.0%                         64  (1356 errors)
+FE + NN selector (1 decode)      1.48e-03 [1.2e-03,1.8e-03]             100.0%                         64  (89 errors)
+C) Where plain Dumer / FE+Dumer fail first (share of block errors by first-failing leaf, decoding order):
+   Dumer         : leaf Rvv RM(1,7) 95.4%, leaf Rvuv RM(1,6) 4.5%, leaf Ruvv RM(1,6) 0.1%
+   FE + Dumer    : leaf Rvv RM(1,7) 95.0%, leaf Rvuv RM(1,6) 4.9%, leaf Ruvv RM(1,6) 0.1%
+D) Selector behaviour (relative to FE + Dumer with the identity permutation):
+   frames FE+Dumer gets wrong that the NN selector fixes : 1336/1356 = 98.5%
+   frames FE+Dumer gets right that the NN selector breaks: 69/58644 = 0.118%
+   FE+Dumer failures fixable by SOME of the 16 candidates (oracle coverage): 1356/1356 = 100.0%
+   NN picks the identity permutation 6.2% of the time; agrees with the hand rule 16.5%
+   NN-chosen permutation index histogram: 3691 3667 3667 3889 3749 3705 3650 3794 3796 3748 3839 3780 3701 3733 3875 3716
+E) Ablation (BLER):  where does the gain come from?
+   plain Dumer                                              3.36e-02  [3.2e-02,3.5e-02]  (2013 errors)
+   permutation selection only (hand rule, no front-end)     2.53e-03  [2.2e-03,3.0e-03]  (152 errors)
+   front-end only                                           2.26e-02  [2.1e-02,2.4e-02]  (1356 errors)
+   front-end + hand-rule selector (non-neural)              1.95e-03  [1.6e-03,2.3e-03]  (117 errors)
+   front-end + NN selector                                  1.48e-03  [1.2e-03,1.8e-03]  (89 errors)
+
+==========================================================================================
+RM(3,9) at -1.50 dB  (60000 frames)
+==========================================================================================
+B) Nature of the errors.  decoder-failure = the transmitted codeword had a HIGHER likelihood than the decoded one
+   (a maximum-likelihood decoder would have decoded it correctly => headroom for a better decoder)
+method                           BLER [95% CI]                     decoder-failure   median d_H(true,decoded)
+Dumer                            6.83e-03 [6.2e-03,7.5e-03]             100.0%                         64  (410 errors)
+FE + Dumer                       2.62e-03 [2.2e-03,3.1e-03]             100.0%                         64  (157 errors)
+FE + NN selector (1 decode)      1.00e-04 [4.6e-05,2.2e-04]             100.0%                         64  (6 errors)
+C) Where plain Dumer / FE+Dumer fail first (share of block errors by first-failing leaf, decoding order):
+   Dumer         : leaf Rvv RM(1,7) 99.3%, leaf Rvuv RM(1,6) 0.7%, leaf Ruuvuuuuu RM(1,1) 0.0%
+   FE + Dumer    : leaf Rvv RM(1,7) 98.7%, leaf Rvuv RM(1,6) 1.3%, leaf Ruuvuuuuu RM(1,1) 0.0%
+D) Selector behaviour (relative to FE + Dumer with the identity permutation):
+   frames FE+Dumer gets wrong that the NN selector fixes : 157/157 = 100.0%
+   frames FE+Dumer gets right that the NN selector breaks: 6/59843 = 0.010%
+   FE+Dumer failures fixable by SOME of the 16 candidates (oracle coverage): 157/157 = 100.0%
+   NN picks the identity permutation 6.2% of the time; agrees with the hand rule 22.9%
+   NN-chosen permutation index histogram: 3746 3619 3679 3823 3731 3681 3579 3963 3782 3660 3683 3650 3748 3997 3868 3791
+E) Ablation (BLER):  where does the gain come from?
+   plain Dumer                                              6.83e-03  [6.2e-03,7.5e-03]  (410 errors)
+   permutation selection only (hand rule, no front-end)     4.00e-04  [2.7e-04,6.0e-04]  (24 errors)
+   front-end only                                           2.62e-03  [2.2e-03,3.1e-03]  (157 errors)
+   front-end + hand-rule selector (non-neural)              2.00e-04  [1.1e-04,3.5e-04]  (12 errors)
+   front-end + NN selector                                  1.00e-04  [4.6e-05,2.2e-04]  (6 errors)
+
+==========================================================================================
+F) Measured GPU wall-clock cost, relative to one plain Dumer decode (same batch)
+==========================================================================================
+   plain Dumer                                            1.00 x
+   FE + Dumer                                             1.77 x
+   FE + heuristic/NN selector (1 Dumer decode)            2.00 x
+   FE + NN top-2 (2 Dumer decodes)                        3.16 x
+   FE + best-of-16 (AED-style, 16 decodes)               19.38 x
+   (front-end graph: 4096 checks x weight 16 = 65536 edges per round, 2 rounds; selector: 25601 parameters)

@@ -1,0 +1,47 @@
+{
+  "MODE": "compute_and_save",
+  "PROJECT_NAME": "HiKO_PermSel",
+  "R": 3,
+  "M": 9,
+  "USE_FRONTEND": true,
+  "DV": 128,
+  "T_ROUNDS": 2,
+  "ALPHA_INIT": 0.4,
+  "P_PERMS": 16,
+  "PERM_SEED": 1,
+  "TRAIN_SNRS": [
+    -2.5,
+    -2.0
+  ],
+  "TRAIN_FRAMES": 1000000,
+  "SELECTOR_HIDDEN": 128,
+  "EPOCHS": 120,
+  "LEARNING_RATE": 0.001,
+  "EVAL_SNRS": [
+    -3.0,
+    -2.5,
+    -2.0,
+    -1.5,
+    -1.0,
+    -0.5
+  ],
+  "MIN_BLOCK_ERRORS": 400,
+  "MAX_WORDS": 10000000,
+  "BATCH": 1000,
+  "COMPUTE_ORACLE": false,
+  "RUN_ANALYSIS": true,
+  "ANALYSIS_SNRS": [
+    -2.0,
+    -1.5
+  ],
+  "ANALYSIS_WORDS": 60000,
+  "BLER_TARGETS": [
+    0.01,
+    0.001,
+    0.0001
+  ],
+  "SEED": 42,
+  "timestamp": "2026-10-11T21:48:48.439092",
+  "cuda_available": true,
+  "device_count": 1
+}

@@ -1,0 +1,20 @@
+======================================================================
+EXPERIMENT RESULTS SUMMARY
+======================================================================
+
+Code: RM(4,8)  k=163 n=256 rate=0.637
+Front-end: ON (dv=128, T=2, alpha=0.3); candidates P=16
+Selector training: 1000000 frames at SNRs [1.5, 2.0], 120 epochs, best val selection accuracy 0.867
+Evaluation: >= 400 block errors per point (cap 10000000 words); BLER/BER (block errors)
+
+   SNR |                  dumer |                     fe |                   heur |                    nn1 |                    nn2
+  1.00 | 3.29e-01/1.2e-01 ( 657) | 2.24e-01/8.4e-02 ( 448) | 1.17e-01/4.2e-02 ( 469) | 1.12e-01/4.1e-02 ( 446) | 6.21e-02/2.2e-02 ( 497)
+  1.50 | 1.51e-01/5.4e-02 ( 603) | 6.20e-02/2.2e-02 ( 496) | 2.72e-02/9.6e-03 ( 435) | 2.34e-02/8.3e-03 ( 422) | 9.90e-03/3.4e-03 ( 416)
+  2.00 | 4.14e-02/1.4e-02 ( 414) | 8.10e-03/2.8e-03 ( 405) | 3.65e-03/1.2e-03 ( 401) | 3.21e-03/1.1e-03 ( 404) | 1.05e-03/3.4e-04 ( 400)
+  2.50 | 8.48e-03/2.8e-03 ( 407) | 6.43e-04/2.2e-04 ( 400) | 3.07e-04/1.0e-04 ( 400) | 2.54e-04/8.6e-05 ( 400) | 8.24e-05/2.7e-05 ( 400)
+  3.00 | 1.12e-03/3.7e-04 ( 400) | 3.32e-05/1.2e-05 ( 332) | 1.59e-05/5.4e-06 ( 159) | 1.27e-05/4.5e-06 ( 127) | 4.80e-06/1.6e-06 (  48)
+  3.50 | 8.29e-05/2.7e-05 ( 400) | 1.40e-06/5.3e-07 (  14) | 4.00e-07/1.4e-07 (   4) | 2.00e-07/8.7e-08 (   2) | 2.00e-07/8.7e-08 (   2)
+
+dumer=plain Dumer; fe=classical front-end + Dumer; heur=hand rule selects the permutation (max first-leaf correlation);
+nn1=neural selector then ONE full Dumer decode; nn2=neural top-2, both decoded, better by likelihood.
+Points with fewer than MIN_BLOCK_ERRORS errors hit the word cap and are statistically weak.
